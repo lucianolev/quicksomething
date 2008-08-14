@@ -432,8 +432,7 @@ void ItemView::wheelScrollLinesChanged(int category)
 {
   if(category != KGlobalSettings::SETTINGS_MOUSE) return;
   
-  KConfig config("kdeglobals");
-  KConfigGroup group = config.group("KDE");
+  KConfigGroup group = KGlobal::config()->group("KDE");
   d->wheelScrollLines = group.readEntry("WheelScrollLines", 3);  
 }
 
