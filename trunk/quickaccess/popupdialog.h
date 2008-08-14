@@ -31,7 +31,7 @@
 #include "dirmodel.h"
 #include "label.h"
 #include "iconmanager.h"
-#include "resizedialog.h"
+#include "shared/resizedialog.h"
 #include "settings.h"
 
 class KFileItemDelegate;
