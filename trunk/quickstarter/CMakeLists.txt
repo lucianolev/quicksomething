@@ -14,7 +14,7 @@ include_directories(
    )
  
 # We add our source code here
-set(quickstarter_SRCS quickstarter.cpp popupdialog.cpp resizedialog.cpp applicationmodel.cpp itemview.cpp
+set(quickstarter_SRCS quickstarter.cpp popupdialog.cpp shared/resizedialog.cpp applicationmodel.cpp itemview.cpp
 		      settings.cpp)
  
 # Now make sure all files get to the right place
