@@ -722,9 +722,11 @@ void ItemView::resizeEvent(QResizeEvent *event)
 void ItemView::mouseMoveEvent(QMouseEvent *event)
 {
   if(event->buttons() &= Qt::LeftButton && state() == QAbstractItemView::DragSelectingState) {
-    d->rubberBand = QRect(d->pressedPos, event->pos()).normalized();
-    setSelection(d->rubberBand, QItemSelectionModel::ClearAndSelect);
-    viewport()->update();
+    if(d->pressedPos != QPoint(-1, -1)) {
+      d->rubberBand = QRect(d->pressedPos, event->pos()).normalized();
+      setSelection(d->rubberBand, QItemSelectionModel::ClearAndSelect);
+      viewport()->update();
+    }
     QAbstractItemView::mouseMoveEvent(event);
     return;
   }
@@ -743,11 +745,13 @@ void ItemView::mouseMoveEvent(QMouseEvent *event)
 
 void ItemView::mousePressEvent(QMouseEvent *event)
 {
-  if(!indexAt(event->pos()).isValid() && event->button() == Qt::LeftButton) {
-    d->pressedPos = event->pos();
-    setState(QAbstractItemView::DragSelectingState);
-  } else {
-    d->pressedPos = QPoint();
+  if(event->button() == Qt::LeftButton) {
+    if(!indexAt(event->pos()).isValid()) {
+      d->pressedPos = event->pos();
+      setState(QAbstractItemView::DragSelectingState);
+    } else {
+      d->pressedPos = QPoint(-1, -1);
+    }
   }
   QAbstractItemView::mousePressEvent(event);
     
@@ -759,8 +763,9 @@ void ItemView::mouseReleaseEvent(QMouseEvent *event)
     viewport()->update(d->rubberBand);
     d->rubberBand = QRect();
     d->pressedPos = QPoint();
-    setState(QAbstractItemView::NoState);
   }
+  setState(QAbstractItemView::NoState);
+
   
   if(d->backArrowRect().contains(event->pos()) && rootIndex() != QModelIndex()) {
     if (event->button() == Qt::LeftButton) {
