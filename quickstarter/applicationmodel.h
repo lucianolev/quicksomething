@@ -27,7 +27,7 @@ class Item;
 class ApplicationModel : public QAbstractItemModel
 {
   public:
-    ApplicationModel(QObject *parent = 0);
+    ApplicationModel(QObject *parent = 0, bool categoriesonly = false);
     ~ApplicationModel();
 
     void setRoot(const QString &path);
@@ -38,15 +38,13 @@ class ApplicationModel : public QAbstractItemModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-
     bool canFetchMore(const QModelIndex &parent) const;
     void fetchMore(const QModelIndex &parent);
     bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
     
   private:
+    bool m_categoriesonly;
     void getChildren(Item *parent);
-
-  private:
     Item *m_root;
 };
 

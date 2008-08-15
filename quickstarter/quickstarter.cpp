@@ -174,23 +174,17 @@ void QuickStarter::showcategories()
   dialog->setCaption( "Choose a category" );
   dialog->setButtons( KDialog::Ok | KDialog::Cancel );
   QTreeView *view = new QTreeView(dialog);
+  view->setHeaderHidden(true);
   view->setSelectionMode(QAbstractItemView::SingleSelection);
   KFileItemDelegate *delegate = new KFileItemDelegate(dialog);
   view->setItemDelegate(delegate);
-  ApplicationModel *model = new ApplicationModel(dialog);
+  bool categoriesonly = true;
+  ApplicationModel *model = new ApplicationModel(dialog, categoriesonly);
   view->setModel(model);
   
   dialog->setMainWidget(view);
-  if(dialog->exec()) {
-//     QModelIndex selectedIndex = view->currentIndex();
-//     QString categoryPath = selectedIndex.data().toString();
-//     while(selectedIndex.isValid())
-//     {
-//       categoryPath = categoryPath+"/"+selectedIndex.data().toString();
-//       selectedIndex = selectedIndex.parent();
-//     }
-    ui.categoryLabel->setText(model->relPath(view->currentIndex())); //TODO:get the selected category and save it
-  }
+  if(dialog->exec())
+    ui.categoryLabel->setText(model->relPath(view->currentIndex()));
   delete dialog;
 }
 
