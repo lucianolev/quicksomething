@@ -121,16 +121,17 @@ void QuickStarter::createConfigurationInterface(KConfigDialog *parent)
   QWidget *widget = new QWidget;
   ui.setupUi(widget);
   
+  //Restore Settings
+  ui.categoryLabel->setText(m_settings->category());
   ui.iconbutton->setIcon(m_settings->iconName());
   ui.iconbutton->setIconType(KIconLoader::NoGroup, KIconLoader::Application);
-  
   ui.iconSizeCombo->setCurrentIndex(ui.iconSizeCombo->findText( QString::number(m_settings->iconSize()) ));
-    
   if(m_settings->viewMode() == ItemView::ListMode) {
     ui.viewModeCombo->setCurrentIndex(0);
   } else {
     ui.viewModeCombo->setCurrentIndex(1);
   }
+
   ui.viewModeCombo->setItemIcon(0, KIcon("view-list-details"));
   ui.viewModeCombo->setItemIcon(1, KIcon("view-list-icons"));
   
@@ -181,11 +182,17 @@ void QuickStarter::showcategories()
   
   dialog->setMainWidget(view);
   if(dialog->exec()) {
-    ////TODO: get the selected category and save it
+//     QModelIndex selectedIndex = view->currentIndex();
+//     QString categoryPath = selectedIndex.data().toString();
+//     while(selectedIndex.isValid())
+//     {
+//       categoryPath = categoryPath+"/"+selectedIndex.data().toString();
+//       selectedIndex = selectedIndex.parent();
+//     }
+    ui.categoryLabel->setText(model->relPath(view->currentIndex())); //TODO:get the selected category and save it
   }
   delete dialog;
 }
-
 
 void QuickStarter::slot_iconClicked()
 {
