@@ -41,20 +41,35 @@ class Item
     QList<Item*> children;
 };
 
-ApplicationModel::ApplicationModel(QObject *parent, const QString &category)
+ApplicationModel::ApplicationModel(QObject *parent)
   :QAbstractItemModel(parent)
   ,m_root(new Item())
 {
-  m_root->relPath = category;
-  m_root->isCategory = true;
-  getChildren(m_root);
+  setRoot(QString()); //This is to show all categories
 }
 
 ApplicationModel::~ApplicationModel()
 {
   delete m_root;
 }
-    
+
+void ApplicationModel::setRoot(const QString &path)
+{
+  delete m_root;
+  m_root = new Item();
+  m_root->relPath = path;
+  m_root->isCategory = true;
+  getChildren(m_root);
+}
+
+QString ApplicationModel::relPath(const QModelIndex &index)
+{
+  if(!index.isValid())
+    return QString();
+  else 
+    return static_cast<Item*>(index.internalPointer())->relPath;
+}
+
 QModelIndex ApplicationModel::index(int row, int column, const QModelIndex &parent) const
 {
   if(column != 0 || row < 0) return QModelIndex();
@@ -84,6 +99,8 @@ QModelIndex ApplicationModel::parent(const QModelIndex &index) const
     return QModelIndex();
   }
 }
+
+
 
 int ApplicationModel::rowCount(const QModelIndex &parent) const
 {

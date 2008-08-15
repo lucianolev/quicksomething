@@ -49,7 +49,8 @@ PopupDialog::PopupDialog(Settings *settings, QWidget * parent, Qt::WindowFlags f
   KFileItemDelegate *delegate = new KFileItemDelegate(this);
   m_view->setItemDelegate(delegate);
 
-  m_model = new ApplicationModel(this, m_settings->category());
+  m_model = new ApplicationModel(this);
+  m_model->setRoot(m_settings->category());
   m_view->setModel(m_model);
   l_layoutVertical->addWidget(m_view);
   
@@ -73,9 +74,7 @@ void PopupDialog::applySettings(Settings::SettingsType type)
       m_view->setViewMode(m_settings->viewMode());
       break;
     case Settings::Category:
-      //FIXME: Is this the right way?
-      delete m_model;
-      m_model = new ApplicationModel(this, m_settings->category());
+      m_model->setRoot(m_settings->category());
       m_view->setModel(m_model);
       break;
     default:

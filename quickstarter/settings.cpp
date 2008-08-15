@@ -22,7 +22,7 @@
 
 Settings::Settings(QObject *parent)
   :QObject(parent)
-  ,m_category("") //FIXME: Default category?
+  ,m_category("")
   ,m_iconName("kde")
   ,m_iconSize(16)
   ,m_viewMode(ItemView::ListMode)
@@ -36,8 +36,8 @@ Settings::~Settings()
 
 void Settings::setCategory(const QString &category)
 {
-  if(category+"/" != m_category) {
-    m_category = category+"/";
+  if(category != m_category) {
+    m_category = category;
     m_needsSaving = true;
     emit settingsChanged(Settings::Category);
   }
@@ -139,7 +139,7 @@ bool Settings::needsSaving()
 
 void Settings::readSettings(KConfigGroup *cg)
 {
-  m_category = cg->readEntry("category", ""); //FIXME: Default category?
+  m_category = cg->readEntry("category", "");
   m_iconName = cg->readEntry("icon", "kde");
   m_iconSize = cg->readEntry("iconSize", 32);
   m_viewMode = (ItemView::ViewMode)cg->readEntry("ViewMode", 1);
