@@ -15,7 +15,7 @@ include_directories(
  
 # We add our source code here
 set(quickaccess_SRCS quickaccess.cpp popupdialog.cpp itemview.cpp pluginwidget.cpp effects.cpp button.cpp
-		     dirmodel.cpp label.cpp iconmanager.cpp shared/resizedialog.cpp settings.cpp pluginmodel.cpp customstyle.cpp)
+		     dirmodel.cpp label.cpp iconmanager.cpp shared/resizedialog.cpp settings.cpp pluginmodel.cpp)
  
 # Now make sure all files get to the right place
 kde4_add_ui_files(quickaccess_SRCS quickaccessConfig.ui pluginwidgetbase.ui)
