@@ -41,10 +41,11 @@ class Item
     QList<Item*> children;
 };
 
-ApplicationModel::ApplicationModel(QObject *parent)
+ApplicationModel::ApplicationModel(QObject *parent, bool categoriesonly)
   :QAbstractItemModel(parent)
   ,m_root(new Item())
 {
+  m_categoriesonly = categoriesonly;
   setRoot(QString()); //This is to show all categories
 }
 
@@ -99,8 +100,6 @@ QModelIndex ApplicationModel::parent(const QModelIndex &index) const
     return QModelIndex();
   }
 }
-
-
 
 int ApplicationModel::rowCount(const QModelIndex &parent) const
 {
@@ -187,7 +186,7 @@ void ApplicationModel::getChildren(Item *parent)
     QString comment;
     QString desktopFile;
     
-    if (p->isType(KST_KService)){
+    if (p->isType(KST_KService) && !m_categoriesonly){
        KService::Ptr s = KService::Ptr::staticCast(p);
        if(s->noDisplay()) continue;
        name = s->name();
@@ -206,19 +205,20 @@ void ApplicationModel::getChildren(Item *parent)
        comment = g->comment();
        isCategory = true;
     }
-    Item *newItem = new Item();
-    newItem->parent = parent;
-    newItem->name = name;
-    newItem->icon = icon;
-    newItem->relPath = relPath;
-    newItem->isCategory = isCategory;
-    newItem->comment = comment;
-    newItem->desktopFile = desktopFile;
-    parent->children.append(newItem);
-    
-    
- }
- parent->childrenFetched = true;
+    if (!name.isNull())
+    {
+      Item *newItem = new Item();
+      newItem->parent = parent;
+      newItem->name = name;
+      newItem->icon = icon;
+      newItem->relPath = relPath;
+      newItem->isCategory = isCategory;
+      newItem->comment = comment;
+      newItem->desktopFile = desktopFile;
+      parent->children.append(newItem);
+    }
 
-  
+   }
+
+  parent->childrenFetched = true;
 }

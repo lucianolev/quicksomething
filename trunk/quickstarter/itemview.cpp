@@ -34,6 +34,7 @@
 #include <KFileItem>
 #include <konq_popupmenu.h>
 #include <KBookmarkManager>
+#include <KToolInvocation>
 #include <kdirsortfilterproxymodel.h>
 #include <konq_operations.h>
 
@@ -417,6 +418,10 @@ void ItemView::open(const QModelIndex &index)
       d->animationTimeLine->setDirection(QTimeLine::Backward);
     }
     d->animationTimeLine->start();
+  } else {
+    //FIXME: Not generic, appmodel especific
+    QString appname = index.data(Qt::DisplayRole).toString(); 
+    KToolInvocation::startServiceByDesktopName(appname);
   }
   emit signal_open(index);
 }
