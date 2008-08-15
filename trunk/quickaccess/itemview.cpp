@@ -45,7 +45,6 @@
 
 #include "dirmodel.h"
 #include "effects.h"
-#include "customstyle.h"
 
 class ItemView::Private
 {
@@ -89,10 +88,6 @@ ItemView::ItemView(QWidget *parent)
   :QAbstractItemView(parent)
   ,d(new Private(this))
 {
-//   CustomStyle *s = new CustomStyle();
-//   verticalScrollBar()->setAutoFillBackground(true);
-//   verticalScrollBar()->setStyle(s);
-//   horizontalScrollBar()->setStyle(s);
   setMouseTracking(true);
   setAutoScroll(true);
   setDragDropMode(QAbstractItemView::DragDrop);
