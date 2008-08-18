@@ -35,7 +35,7 @@
 #include "settings.h"
 
 class KFileItemDelegate;
-class ItemView;
+class ItemViewBase;
 class Button;
 
 class PopupDialog : public ResizeDialog
@@ -90,7 +90,7 @@ class PopupDialog : public ResizeDialog
     Button *m_sortButton;
     KFileItem m_start;
     KFileItem m_current;
-    ItemView *m_view;
+    ItemViewBase *m_view;
     DirModel *m_model;
     KDirSortFilterProxyModel *m_proxyModel;
     IconManager *m_iconManager;

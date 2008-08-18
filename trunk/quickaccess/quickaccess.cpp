@@ -170,7 +170,7 @@ void QuickAccess::createConfigurationInterface(KConfigDialog *parent)
   
   ui.iconSizeCombo->setCurrentIndex(ui.iconSizeCombo->findText( QString::number(m_settings->iconSize()) ));
   
-  if(m_settings->viewMode() == ItemView::ListMode) {
+  if(m_settings->viewMode() == ItemViewBase::ListMode) {
     ui.viewModeCombo->setCurrentIndex(0);
   } else {
     ui.viewModeCombo->setCurrentIndex(1);
@@ -267,9 +267,9 @@ void QuickAccess::configAccepted()
   m_settings->setPreviewPlugins(list);
   
   if(ui.viewModeCombo->currentIndex() == 0) {
-    m_settings->setViewMode(ItemView::ListMode);
+    m_settings->setViewMode(ItemViewBase::ListMode);
   } else {
-    m_settings->setViewMode(ItemView::IconMode);
+    m_settings->setViewMode(ItemViewBase::IconMode);
   }
   
 }
