@@ -26,7 +26,7 @@
 #include <KConfigGroup>
 #include <KDirModel>
 
-#include "itemviewbase.h"
+#include "itemview/itemviewbase.h"
 
 class Settings : public QObject
 {
