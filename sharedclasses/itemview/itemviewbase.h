@@ -41,7 +41,7 @@ class ItemViewBase : public QAbstractItemView
     ItemViewBase::ViewMode viewMode() const;
     
     void setAnimator(Animator *animator);
-    Animator *animator() const;
+    Animator *animator();
     
     QModelIndex previousRootIndex() const;
     QModelIndex hoveredIndex() const;

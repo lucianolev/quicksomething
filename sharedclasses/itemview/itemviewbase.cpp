@@ -117,11 +117,8 @@ void ItemViewBase::setAnimator(Animator *animator)
   d->animator = animator;
 }
 
-Animator *ItemViewBase::animator() const
+Animator *ItemViewBase::animator()
 {
-  if(d->animator == 0) {
-    d->animator = new Animator(this, this);
-  }
   return d->animator;
 }
 
@@ -150,7 +147,7 @@ QRect ItemViewBase::visualRect(const QModelIndex &index) const
   int leftOffset = 0;
   int width = d->gridSize.width();
   
-  int backArrowWidth = animator()->backArrowRect().width() + animator()->backArrowSpacing();
+  int backArrowWidth = d->animator->backArrowRect().width() + d->animator->backArrowSpacing();
   
   if(model()->parent(index) != QModelIndex()) {
     if(viewMode() == ItemViewBase::ListMode) {
@@ -183,14 +180,14 @@ void ItemViewBase::setIconSize(const QSize &size)
 
 QModelIndex ItemViewBase::indexAt(const QPoint& point) const
 {
-  if(rootIndex() != QModelIndex() && animator()->backArrowRect().contains(point)){
+  if(rootIndex() != QModelIndex() && d->animator->backArrowRect().contains(point)){
     return QModelIndex();
   }
   
   int topOffset = 0 - verticalOffset();
   int leftOffset = 0 - horizontalOffset();
   if(rootIndex() != QModelIndex()) {
-    leftOffset += animator()->backArrowRect().width();
+    leftOffset += d->animator->backArrowRect().width();
   }
     
   int rowIndex = (point.y() - topOffset) / d->gridSize.height();
@@ -425,11 +422,11 @@ void ItemViewBase::resizeEvent(QResizeEvent *event)
 void ItemViewBase::mouseMoveEvent(QMouseEvent *event)
 {
   
-  bool mouseOverBackArrow = animator()->backArrowRect().contains(event->pos());
+  bool mouseOverBackArrow = d->animator->backArrowRect().contains(event->pos());
 
   if (mouseOverBackArrow != d->backArrowHover) {
     d->backArrowHover = mouseOverBackArrow;
-    setDirtyRegion(animator()->backArrowRect());
+    setDirtyRegion(d->animator->backArrowRect());
   }
   QModelIndex index = indexAt(event->pos());
   d->hoveredIndex = index;
@@ -444,7 +441,7 @@ void ItemViewBase::mousePressEvent(QMouseEvent *event)
 
 void ItemViewBase::mouseReleaseEvent(QMouseEvent *event)
 {  
-  if(animator()->backArrowRect().contains(event->pos()) && rootIndex() != QModelIndex()) {
+  if(d->animator->backArrowRect().contains(event->pos()) && rootIndex() != QModelIndex()) {
     if (event->button() == Qt::LeftButton) {
       open(rootIndex().parent());
     }
@@ -494,7 +491,7 @@ void ItemViewBase::keyPressEvent(QKeyEvent *event)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ItemViewBase::Private::Private(ItemViewBase *view)
   :q(view)
-  ,animator(0)
+  ,animator(new Animator(this, this))
   ,backArrowHover(false)
   ,itemsPerRow(1)
   ,goBack(false)
