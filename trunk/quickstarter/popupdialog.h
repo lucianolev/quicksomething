@@ -23,7 +23,7 @@
 
 //locale includes
 #include "itemview.h"
-#include "shared/resizedialog.h"
+#include "dialog/resizedialog.h"
 #include "settings.h"
 #include "applicationmodel.h"
 
