@@ -40,10 +40,10 @@
 
 
 //local includes
-#include "itemviewbase.h"
+#include "itemview/itemviewbase.h"
 #include "button.h"
-#include "fadeanimator.h"
-#include "flipanimator.h"
+#include "itemview/fadeanimator.h"
+#include "itemview/flipanimator.h"
 
 
 
