@@ -491,7 +491,7 @@ void ItemViewBase::keyPressEvent(QKeyEvent *event)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ItemViewBase::Private::Private(ItemViewBase *view)
   :q(view)
-  ,animator(new Animator(this, this))
+  ,animator(new Animator(q, q))
   ,backArrowHover(false)
   ,itemsPerRow(1)
   ,goBack(false)
