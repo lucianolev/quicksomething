@@ -22,8 +22,6 @@
 
 #include <QAbstractItemView>
 
-static const int DRAG_ENTER_TIME = 1000;
-
 class Animator;
 
 class ItemViewBase : public QAbstractItemView
@@ -57,12 +55,10 @@ class ItemViewBase : public QAbstractItemView
     
   public slots:
     void open(const QModelIndex &index = QModelIndex());
-    void openInBrowser(const QModelIndex &index = QModelIndex());
     void updateScrollAnimation(qreal);
     
   signals:
     void signal_open(const QModelIndex &);
-    void signal_openInBrowser(const QModelIndex &);
 
   protected:
     //QWidget

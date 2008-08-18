@@ -381,12 +381,6 @@ void ItemViewBase::open(const QModelIndex &index)
   emit signal_open(index);
 }
 
-void ItemViewBase::openInBrowser(const QModelIndex &index)
-{
-  selectionModel()->clearSelection();
-  emit signal_openInBrowser(index);
-}
-
 void ItemViewBase::updateScrollAnimation(qreal value)
 {
   Q_UNUSED(value);
@@ -451,14 +445,8 @@ void ItemViewBase::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
       open(rootIndex().parent());
     }
-    else if (event->button() == Qt::MidButton) {
-      openInBrowser(rootIndex().parent());
-    }
-  }
-  else if (indexAt(event->pos()).isValid() && event->button() == Qt::MidButton) {
-    openInBrowser(indexAt(event->pos()));
-  }
-  else {
+    
+  } else {
     QAbstractItemView::mouseReleaseEvent(event);
   }
 }
