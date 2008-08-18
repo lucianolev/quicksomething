@@ -40,8 +40,10 @@
 
 
 //local includes
-#include "itemview.h"
+#include "itemviewbase.h"
 #include "button.h"
+#include "fadeanimator.h"
+#include "flipanimator.h"
 
 
 
@@ -113,7 +115,7 @@ PopupDialog::PopupDialog(Settings *settings, QWidget * parent, Qt::WindowFlags f
   
   
   //create the ItemView
-  m_view = new ItemView(this);
+  m_view = new ItemViewBase(this);
   m_view->setFocus();
   
   m_model = new DirModel(this);
@@ -128,6 +130,7 @@ PopupDialog::PopupDialog(Settings *settings, QWidget * parent, Qt::WindowFlags f
   m_delegate->setShadowBlur(8);
   m_delegate->setShadowOffset(QPointF(0,0));
   m_view->setItemDelegate(m_delegate);
+  m_view->setAnimator(new FlipAnimator(m_view, this));
 
   l_layoutVertical->addWidget(m_view);
   
@@ -198,7 +201,7 @@ void PopupDialog::applySettings(Settings::SettingsType type)
       setStartUrl(m_settings->url());
       break;
     case Settings::ToolTips:
-      m_view->setShowToolTips(m_settings->showToolTips());
+      //m_view->setShowToolTips(m_settings->showToolTips());//FIXME
       break;
     case Settings::ViewMode:
       m_view->setViewMode(m_settings->viewMode());
@@ -214,7 +217,7 @@ void PopupDialog::applySettings(Settings::SettingsType type)
       m_model->dirLister()->setDirOnlyMode(m_settings->showOnlyDirs());
       m_proxyModel->setFilterWildcard(m_settings->filter());
       setStartUrl(m_settings->url());
-      m_view->setShowToolTips(m_settings->showToolTips());
+      //m_view->setShowToolTips(m_settings->showToolTips());//FIXME
       m_view->setViewMode(m_settings->viewMode());
       updateSorting();
       break;

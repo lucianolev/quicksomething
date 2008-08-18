@@ -26,7 +26,7 @@
 #include <KConfigGroup>
 #include <KDirModel>
 
-#include "itemview.h"
+#include "itemviewbase.h"
 
 class Settings : public QObject
 {
@@ -93,8 +93,8 @@ class Settings : public QObject
     void setShowToolTips(bool show);
     bool showToolTips();
     
-    void setViewMode(ItemView::ViewMode mode);
-    ItemView::ViewMode viewMode();
+    void setViewMode(ItemViewBase::ViewMode mode);
+    ItemViewBase::ViewMode viewMode();
     
     void setAllowNavigation(bool allow);
     bool allowNavigation();
@@ -131,7 +131,7 @@ class Settings : public QObject
     bool m_showToolTips;
     bool m_needsSaving;
     QStringList m_previewPlugins;
-    ItemView::ViewMode m_viewMode;
+    ItemViewBase::ViewMode m_viewMode;
     bool m_allowNavigation;
     Qt::SortOrder m_sortOrder;
     KDirModel::ModelColumns m_sortColumn;

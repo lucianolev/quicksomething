@@ -41,7 +41,7 @@ Settings::Settings(QObject *parent)
   ,m_showToolTips(false)
   ,m_needsSaving(false)
   ,m_previewPlugins(QStringList() << "imagethumbnail")
-  ,m_viewMode(ItemView::ListMode)
+  ,m_viewMode(ItemViewBase::ListMode)
   ,m_allowNavigation(true)
   ,m_sortOrder(Qt::AscendingOrder)
   ,m_sortColumn(KDirModel::Name)
@@ -250,7 +250,7 @@ bool Settings::showToolTips()
   return m_showToolTips;
 }
 
-void Settings::setViewMode(ItemView::ViewMode mode)
+void Settings::setViewMode(ItemViewBase::ViewMode mode)
 {
   if(mode != m_viewMode) {
     m_viewMode = mode;
@@ -259,7 +259,7 @@ void Settings::setViewMode(ItemView::ViewMode mode)
   }
 }
 
-ItemView::ViewMode Settings::viewMode()
+ItemViewBase::ViewMode Settings::viewMode()
 {
   return m_viewMode;
 }
@@ -327,7 +327,7 @@ void Settings::readSettings(KConfigGroup *cg)
   m_customLabelTextOrientation = (Qt::Orientation)cg->readEntry("customLabelTextOrientation", (int)Qt::Vertical);
   m_previewPlugins = cg->readEntry("previewPlugins", QStringList() << "imagethumbnail");
   m_showToolTips = cg->readEntry("ToolTips", false);
-  m_viewMode = (ItemView::ViewMode)cg->readEntry("ViewMode", 0);
+  m_viewMode = (ItemViewBase::ViewMode)cg->readEntry("ViewMode", 0);
   m_allowNavigation = cg->readEntry("AllowNavigation", true);
   m_sortOrder = (Qt::SortOrder)cg->readEntry("sortOrder", 0);
   m_sortColumn = (KDirModel::ModelColumns)cg->readEntry("sortColumn", 0);
