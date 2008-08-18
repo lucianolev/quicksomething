@@ -117,7 +117,7 @@ void ItemViewBase::setAnimator(Animator *animator)
   d->animator = animator;
 }
 
-Animator *ItemViewBase::animator()
+Animator *ItemViewBase::animator() const
 {
   if(d->animator == 0) {
     d->animator = new Animator(this, this);
