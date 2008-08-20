@@ -14,7 +14,7 @@ include_directories(
    )
  
 # We add our source code here
-set(quickaccess_SRCS quickaccess.cpp popupdialog.cpp itemview/itemviewbase.cpp pluginwidget.cpp effects.cpp button.cpp
+set(quickaccess_SRCS quickaccess.cpp popupdialog.cpp itemview.cpp itemview/itemviewbase.cpp pluginwidget.cpp effects.cpp button.cpp
 		     dirmodel.cpp label.cpp iconmanager.cpp dialog/resizedialog.cpp settings.cpp pluginmodel.cpp
 		     itemview/animator.cpp itemview/fadeanimator.cpp itemview/flipanimator.cpp)
  
