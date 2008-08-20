@@ -1,0 +1,2 @@
+= QuickStarter TODO =
+ * Connect the ui category label with the category selector dialog. 
