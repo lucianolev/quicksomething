@@ -22,7 +22,8 @@
 
 #include <QAbstractItemView>
 
-#include "animator.h"
+class Animator;
+
 class ItemViewBase : public QAbstractItemView
 {
   Q_OBJECT
