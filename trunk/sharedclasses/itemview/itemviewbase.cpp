@@ -91,7 +91,7 @@ ItemViewBase::ItemViewBase(QWidget *parent)
   wheelScrollLinesChanged(KGlobalSettings::SETTINGS_MOUSE);
   
   connect(Plasma::Theme::defaultTheme(), SIGNAL(themeChanged()), SLOT(updateColors()));
-  
+  updateColors();
 }
 
 ItemViewBase::~ItemViewBase()
