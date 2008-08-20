@@ -36,8 +36,6 @@
 #include <Plasma/Theme>
 #include <plasma/paintutils.h>
 
-#include "animator.h"
-
 class ItemViewBase::Private
 {
   public:
