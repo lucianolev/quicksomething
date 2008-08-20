@@ -87,6 +87,7 @@ class ItemViewBase : public QAbstractItemView
   private slots:
     void scrollBarValueChanged(int value);
     void wheelScrollLinesChanged(int category);
+    void updateColors();
   
   private:
     class Private;

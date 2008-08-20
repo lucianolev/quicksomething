@@ -90,6 +90,8 @@ ItemViewBase::ItemViewBase(QWidget *parent)
   connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)), this, SLOT(wheelScrollLinesChanged(int)));
   wheelScrollLinesChanged(KGlobalSettings::SETTINGS_MOUSE);
   
+  connect(Plasma::Theme::defaultTheme(), SIGNAL(themeChanged()), SLOT(updateColors()));
+  
 }
 
 ItemViewBase::~ItemViewBase()
@@ -390,6 +392,13 @@ void ItemViewBase::updateScrollAnimation(qreal value)
 {
   Q_UNUSED(value);
   verticalScrollBar()->setValue(d->scrollTimeLine->currentFrame());
+}
+
+void ItemViewBase::updateColors()
+{
+  QPalette pal = palette();
+  pal.setColor(QPalette::Button, Plasma::Theme::defaultTheme()->color( Plasma::Theme::BackgroundColor ));
+  setPalette(pal);
 }
 
 void ItemViewBase::paintEvent(QPaintEvent *event)
