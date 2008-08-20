@@ -45,6 +45,7 @@ class ItemViewBase : public QAbstractItemView
     
     QModelIndex previousRootIndex() const;
     QModelIndex hoveredIndex() const;
+    void setHoveredIndex(const QModelIndex &index);
     bool isItemVisible(const QModelIndex &index) const;
     
     //QAbstractItemView
