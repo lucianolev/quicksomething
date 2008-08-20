@@ -20,86 +20,45 @@
 #ifndef ItemView_HEADER
 #define ItemView_HEADER
 
-#include <QAbstractItemView>
+#include <QTimer>
 
-static const int BACK_ARROW_WIDTH = 16;
-static const int BACK_ARROW_SPACING = 5;
-static const int ANIMATION_TIME = 100;
-static const int DRAG_ENTER_TIME = 1000;
+#include <konq_operations.h>
 
-class ItemView : public QAbstractItemView
+#include "itemview/itemviewbase.h"
+
+const int DRAG_ENTER_TIME = 1000;
+
+class ItemView : public ItemViewBase
 {
   Q_OBJECT
   public:
-    enum ViewMode{
-      ListMode = 0,
-      IconMode = 1      
-    };
-    
-
     ItemView(QWidget *parent = 0);
     ~ItemView();
     
-    void setViewMode(ItemView::ViewMode mode);
-    ItemView::ViewMode viewMode() const;
     void setShowToolTips(bool show);
     bool showToolTips();
     
-    //QAbstractItemView
-    QRect visualRect(const QModelIndex &index) const;
-    void setIconSize(const QSize &size);
-    QModelIndex indexAt(const QPoint& point) const;
-    void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
-    
-  public slots:
-    void open(const QModelIndex &index = QModelIndex());
-    void openInBrowser(const QModelIndex &index = QModelIndex());
-    void updateAnimation(qreal);
-    void timeLineFinished();
-    void updateScrollAnimation(qreal);
-    
   signals:
-    void signal_open(const QModelIndex &);
     void signal_openInBrowser(const QModelIndex &);
-
-  protected:
-    //QWidget
-    void paintEvent(QPaintEvent *event);
-    void resizeEvent(QResizeEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void wheelEvent(QWheelEvent *event);
-    void keyPressEvent(QKeyEvent *event);
     
-    //QAbstractItemView
-    int horizontalOffset() const;
-    int verticalOffset() const;
-    QModelIndex moveCursor(CursorAction cursorAction,Qt::KeyboardModifiers modifiers);
-    void setSelection(const QRect& rect , QItemSelectionModel::SelectionFlags flags);
-    bool isIndexHidden(const QModelIndex& index) const;
-    QRegion visualRegionForSelection(const QItemSelection& selection) const;
+  protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
-    void startDrag(Qt::DropActions supportedActions);
     void dragMoveEvent(QDragMoveEvent *event);
     bool viewportEvent(QEvent *event);
-    
-    //QAbstractScrollArea
     void contextMenuEvent( QContextMenuEvent *event);
-    
-  private:
-    void paintItems(QPainter &painter, QPaintEvent *event, const QModelIndex &index);
-    void relayout();
+    void mouseReleaseEvent(QMouseEvent *event);
     
   private slots:
     void dragEnter();
-    void scrollBarValueChanged(int value);
-    void wheelScrollLinesChanged(int category);
-  
+    void openInBrowser(const QModelIndex &index = QModelIndex());
+    
   private:
-    class Private;
-    Private * const d;
+    QTimer m_dragEnterTimer;
+    bool m_goBack;
+    QPersistentModelIndex m_watchedIndexForEnter;
+    bool m_showToolTips;
+  
 };
 
 #endif //ItemView_HEADER

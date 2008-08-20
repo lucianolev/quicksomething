@@ -297,7 +297,7 @@ void QuickAccess::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
   event->setAccepted(event->mimeData()->hasUrls());
   m_dragOver = true;
-  QTimer::singleShot(DRAG_ENTER_TIME, this, SLOT(slotDragEvent()));  
+  QTimer::singleShot(1000, this, SLOT(slotDragEvent()));  
 }
 
 void QuickAccess::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
