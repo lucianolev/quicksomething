@@ -132,6 +132,11 @@ QModelIndex ItemViewBase::hoveredIndex() const
   return d->hoveredIndex;
 }
 
+void ItemViewBase::setHoveredIndex(const QModelIndex &index)
+{
+  d->hoveredIndex = index;
+}
+
 bool ItemViewBase::isItemVisible(const QModelIndex &index) const
 {
   return visualRect(index).intersects(viewport()->rect());//FIXME use the offset
