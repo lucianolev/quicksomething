@@ -22,7 +22,7 @@
 
 #include <QDir>
 
-// #include <KDebug>
+#include <KDebug> //remove
 
 Settings::Settings(QObject *parent)
   :QObject(parent)
@@ -312,8 +312,11 @@ bool Settings::needsSaving()
 
 void Settings::readSettings(KConfigGroup *cg)
 {
-  KUrl url(QDir::homePath());
-  m_url = cg->readEntry("url", url);
+  if(m_url == KUrl(QDir::homePath())) {
+    kDebug() << "here we are";
+    KUrl url(QDir::homePath());
+    m_url = cg->readEntry("url", url);
+  }
   m_iconName = cg->readEntry("icon", "folder-bookmarks");
   m_iconSize = cg->readEntry("iconSize", 16);
   m_showPreviews = cg->readEntry("preview", false);
