@@ -9,6 +9,7 @@ Name[de]=Schnellzugriff
 Comment[de]=Ein Menü, das den Inhalt eines bestimmten Ordners anzeigt.
 
 X-KDE-ServiceTypes=Plasma/Applet
+X-Plasma-DropMimeTypes=inode/directory
 X-KDE-Library=plasma_applet_quickaccess
 X-KDE-PluginInfo-Author=Mark Herbert
 X-KDE-PluginInfo-Email=wirrkpf@googlemail.com

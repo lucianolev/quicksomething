@@ -47,6 +47,9 @@ QuickAccess::QuickAccess(QObject *parent, const QVariantList &args)
   ,m_dragOver(false)
   ,m_saveTimer(new QTimer(this))
 {
+  if(args.size() == 1){
+    m_settings->setUrl(args.first().toString());
+  }
   setHasConfigurationInterface(true);
   setAcceptDrops(true);
   m_saveTimer->setSingleShot(true);
