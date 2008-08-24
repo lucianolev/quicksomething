@@ -77,7 +77,6 @@ void PopupDialog::applySettings(Settings::SettingsType type)
       break;
     case Settings::Category:
       m_model->setRoot(m_settings->category());
-      m_view->setModel(m_model);
       break;
     default:
       m_view->setViewMode(m_settings->viewMode());
