@@ -92,6 +92,9 @@ PopupDialog::PopupDialog(Settings *settings, QWidget * parent, Qt::WindowFlags f
   QAction *size = new QAction(i18n("Sort by size"), m_sortGroup);
   size->setCheckable(true);
   size->setObjectName("size");
+  QAction *type = new QAction(i18n("Sort by type"), m_sortGroup);
+  type->setCheckable(true);
+  type->setObjectName("type");
   QAction *modified = new QAction(i18n("Sort by last modified"), m_sortGroup);
   modified->setCheckable(true);
   modified->setObjectName("modified");
@@ -100,6 +103,8 @@ PopupDialog::PopupDialog(Settings *settings, QWidget * parent, Qt::WindowFlags f
     name->setChecked(true);
   } else if(m_settings->sortColumn() == KDirModel::Size) {
     size->setChecked(true);
+  } else if(m_settings->sortColumn() == KDirModel::Type) {
+    type->setChecked(true);
   } else {
     modified->setChecked(true);
   }
@@ -107,6 +112,7 @@ PopupDialog::PopupDialog(Settings *settings, QWidget * parent, Qt::WindowFlags f
   m_sortMenu = new QMenu(this);
   m_sortMenu->addAction(name);
   m_sortMenu->addAction(size);
+  m_sortMenu->addAction(type);
   m_sortMenu->addAction(modified);
   m_sortButton->setMenu(m_sortMenu);
   m_sortButton->setPopupMode(QToolButton::MenuButtonPopup);
@@ -275,7 +281,8 @@ void PopupDialog::slot_sortingTriggered()
     m_settings->setSortColumn(KDirModel::Name);
   } else if(triggered->objectName() == "size") {
     m_settings->setSortColumn(KDirModel::Size);
-
+  } else if(triggered->objectName() == "type") {
+    m_settings->setSortColumn(KDirModel::Type);
   } else {
     m_settings->setSortColumn(KDirModel::ModifiedTime);
   }
