@@ -15,7 +15,8 @@ include_directories(
  
 # We add our source code here
 set(quickstarter_SRCS quickstarter.cpp popupdialog.cpp dialog/resizedialog.cpp applicationmodel.cpp itemview.cpp
-		      settings.cpp)
+		      settings.cpp itemview/itemviewbase.cpp itemview/animator.cpp itemview/fadeanimator.cpp
+		      itemview/flipanimator.cpp)
  
 # Now make sure all files get to the right place
 kde4_add_ui_files(quickstarter_SRCS quickstarterConfig.ui)
