@@ -313,7 +313,6 @@ bool Settings::needsSaving()
 void Settings::readSettings(KConfigGroup *cg)
 {
   if(m_url == KUrl(QDir::homePath())) {
-    kDebug() << "here we are";
     KUrl url(QDir::homePath());
     m_url = cg->readEntry("url", url);
   }
