@@ -28,6 +28,7 @@
 //local includes
 #include "popupdialog.h"
 #include "applicationmodel.h"
+#include "itemview/flipanimator.h"
 
 PopupDialog::PopupDialog(Settings *settings, QWidget * parent, Qt::WindowFlags f)
   :ResizeDialog(parent, f)
@@ -45,13 +46,14 @@ PopupDialog::PopupDialog(Settings *settings, QWidget * parent, Qt::WindowFlags f
 
 
   //create the FlipScrollView
-  m_view = new ItemView();
+  m_view = new ItemView(this);
   KFileItemDelegate *delegate = new KFileItemDelegate(this);
   m_view->setItemDelegate(delegate);
 
   m_model = new ApplicationModel(this);
   m_model->setRoot(m_settings->category());
   m_view->setModel(m_model);
+  m_view->setAnimator(new FlipAnimator(m_view, this));
   l_layoutVertical->addWidget(m_view);
   
   connect(m_settings, SIGNAL(settingsChanged(Settings::SettingsType)),

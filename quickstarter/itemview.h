@@ -20,62 +20,22 @@
 #ifndef ItemView_HEADER
 #define ItemView_HEADER
 
-#include <QAbstractItemView>
+#include "itemview/itemviewbase.h"
 
-static const int BACK_ARROW_WIDTH = 16;
-static const int BACK_ARROW_SPACING = 5;
-static const int ANIMATION_TIME = 100;
-static const int DRAG_ENTER_TIME = 1000;
-
-class ItemView : public QAbstractItemView
+class ItemView : public ItemViewBase
 {
   Q_OBJECT
   public:
-    enum ViewMode{
-      ListMode = 0,
-      IconMode = 1      
-    };
-    
-
     ItemView(QWidget *parent = 0);
     ~ItemView();
     
-    void setViewMode(ItemView::ViewMode mode);
-    ItemView::ViewMode viewMode() const;
     void setShowToolTips(bool show);
     bool showToolTips();
     
-    //QAbstractItemView
-    QRect visualRect(const QModelIndex &index) const;
-    void setIconSize(const QSize &size);
-    QModelIndex indexAt(const QPoint& point) const;
-    void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
-    
-  public slots:
-    void open(const QModelIndex &index = QModelIndex());
-    void updateAnimation(qreal);
-    void timeLineFinished();
-    
-  signals:
-    void signal_open(const QModelIndex &);
-
   protected:
-    //QWidget
-    void paintEvent(QPaintEvent *event);
-    void resizeEvent(QResizeEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    
     //QAbstractItemView
-    int horizontalOffset() const;
-    int verticalOffset() const;
-    QModelIndex moveCursor(CursorAction cursorAction,Qt::KeyboardModifiers modifiers);
-    void setSelection(const QRect& rect , QItemSelectionModel::SelectionFlags flags);
-    bool isIndexHidden(const QModelIndex& index) const;
-    QRegion visualRegionForSelection(const QItemSelection& selection) const;
     //void dragEnterEvent(QDragEnterEvent *event);
     //void dropEvent(QDropEvent *event);
-    void startDrag(Qt::DropActions supportedActions);
     //void dragMoveEvent(QDragMoveEvent *event);
     //bool viewportEvent(QEvent *event);
     
@@ -83,15 +43,7 @@ class ItemView : public QAbstractItemView
     //void contextMenuEvent( QContextMenuEvent *event);
     
   private:
-    void paintItems(QPainter &painter, QPaintEvent *event, const QModelIndex &index);
-    void relayout();
-    
-  private slots:
-    void dragEnter();
-  
-  private:
-    class Private;
-    Private * const d;
+    bool m_showToolTips;
 };
 
 #endif //ItemView_HEADER
