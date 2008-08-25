@@ -236,12 +236,13 @@ void ItemView::mouseReleaseEvent(QMouseEvent *event)
     } else if (indexAt(event->pos()).isValid()) {
       openInBrowser(indexAt(event->pos()));
     }
-  } else if(event->button() == Qt::LeftButton && state() == QAbstractItemView::DragSelectingState){
-    setState(QAbstractItemView::NoState);
-    m_pressedPos = QPoint(-1, -1);
-    m_rubberBand = QRect(-1, -1, -1, -1);
-    viewport()->update();
   } else {
+    if(event->button() == Qt::LeftButton && state() == QAbstractItemView::DragSelectingState){
+      setState(QAbstractItemView::NoState);
+      m_pressedPos = QPoint(-1, -1);
+      m_rubberBand = QRect(-1, -1, -1, -1);
+      viewport()->update();
+    }
     ItemViewBase::mouseReleaseEvent(event);
   }
 }
