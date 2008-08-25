@@ -26,6 +26,7 @@
 #include <kdirsortfilterproxymodel.h>
 #include <konq_popupmenu.h>
 #include <KBookmarkManager>
+#include <KDebug>
 
 #include "dirmodel.h"
 
@@ -36,6 +37,8 @@ ItemView::ItemView(QWidget *parent)
   ,m_goBack(false)
   ,m_watchedIndexForEnter(QModelIndex())
   ,m_showToolTips(false)
+  ,m_pressedPos(-1, -1)
+  ,m_rubberBand(-1, -1, -1, -1)
 {
   m_dragEnterTimer.setSingleShot(true);
   setDragDropMode(QAbstractItemView::DragDrop);
@@ -195,6 +198,36 @@ void ItemView::contextMenuEvent( QContextMenuEvent *event)
   delete contextMenu;
 }
 
+void ItemView::mousePressEvent(QMouseEvent *event)
+{
+  if(event->button() == Qt::LeftButton) {
+    if(!indexAt(event->pos()).isValid()) {
+      m_pressedPos = event->pos();
+      setState(QAbstractItemView::DragSelectingState);
+    } else {
+      m_pressedPos = QPoint(-1, -1);
+    }
+  }
+  ItemViewBase::mousePressEvent(event);
+    
+}
+
+void ItemView::mouseMoveEvent(QMouseEvent *event)
+{
+  if(event->buttons() &= Qt::LeftButton && state() == QAbstractItemView::DragSelectingState) {
+    if(m_pressedPos != QPoint(-1, -1)) {
+      m_rubberBand = QRect(m_pressedPos, event->pos()).normalized();
+      if(event->modifiers() &= Qt::ControlModifier) {
+	setSelection(m_rubberBand, QItemSelectionModel::ToggleCurrent);
+      } else {
+	setSelection(m_rubberBand, QItemSelectionModel::ClearAndSelect);
+      }
+      viewport()->update();
+    }
+  }
+  ItemViewBase::mouseMoveEvent(event);
+}
+
 void ItemView::mouseReleaseEvent(QMouseEvent *event)
 {
   if(event->button() == Qt::MidButton) {
@@ -203,9 +236,33 @@ void ItemView::mouseReleaseEvent(QMouseEvent *event)
     } else if (indexAt(event->pos()).isValid()) {
       openInBrowser(indexAt(event->pos()));
     }
+  } else if(event->button() == Qt::LeftButton && state() == QAbstractItemView::DragSelectingState){
+    setState(QAbstractItemView::NoState);
+    m_pressedPos = QPoint(-1, -1);
+    m_rubberBand = QRect(-1, -1, -1, -1);
+    viewport()->update();
   } else {
     ItemViewBase::mouseReleaseEvent(event);
   }
+}
+
+void ItemView::paintEvent(QPaintEvent *event)
+{  
+  QPainter painter;
+  painter.begin(viewport());
+  painter.setRenderHints(QPainter::Antialiasing);
+  
+  if (m_rubberBand.isValid()) {
+    QStyleOptionRubberBand opt;
+    opt.rect   = m_rubberBand;
+    opt.shape  = QRubberBand::Rectangle;
+    opt.opaque = true;
+
+    style()->drawControl(QStyle::CE_RubberBand, &opt, &painter);
+  }
+    
+  painter.end();
+  ItemViewBase::paintEvent(event);
 }
 
 void ItemView::dragEnter()
