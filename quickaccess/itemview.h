@@ -42,12 +42,15 @@ class ItemView : public ItemViewBase
     void signal_openInBrowser(const QModelIndex &);
     
   protected:
+    void paintEvent(QPaintEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);
     bool viewportEvent(QEvent *event);
     void contextMenuEvent( QContextMenuEvent *event);
+    void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
     
   private slots:
     void dragEnter();
@@ -58,6 +61,8 @@ class ItemView : public ItemViewBase
     bool m_goBack;
     QPersistentModelIndex m_watchedIndexForEnter;
     bool m_showToolTips;
+    QPoint m_pressedPos;
+    QRect m_rubberBand;
   
 };
 
