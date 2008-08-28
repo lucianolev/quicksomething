@@ -109,12 +109,9 @@ int Animator::backArrowSpacing() const
   return BACK_ARROW_SPACING;
 }
 
-void Animator::paint(QPainter *painter, QPaintEvent *event)
+void Animator::paintItems(QPainter *painter, const QModelIndex &root, QRect rect)
 {
   painter->save();
-  
-  QModelIndex root = view()->rootIndex();
-      
   const int rows = view()->model()->rowCount(root);
   
   if(root != QModelIndex()){
@@ -130,7 +127,7 @@ void Animator::paint(QPainter *painter, QPaintEvent *event)
     
     // only draw items intersecting the region of the widget
     // being updated
-    if (!event->rect().intersects(view()->visualRect(index))) {
+    if (!rect.intersects(view()->visualRect(index))) {
        continue;
     }
 
@@ -138,6 +135,11 @@ void Animator::paint(QPainter *painter, QPaintEvent *event)
     view()->itemDelegate(index)->paint(painter,option,index);
   }
   painter->restore();
+}
+
+void Animator::paint(QPainter *painter, QPaintEvent *event)
+{
+  paintItems(painter, view()->rootIndex(), event->rect());
 }
 
 QStyleOptionViewItem Animator::viewOptions(const QModelIndex &index) const

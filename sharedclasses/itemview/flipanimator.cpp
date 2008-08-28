@@ -40,49 +40,15 @@ void FlipAnimator::animate()
   painter.begin(&m_oldRoot);
   painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
   
-  QModelIndex root = view()->previousRootIndex();
-  int rows = view()->model()->rowCount(root);
-  if(root != QModelIndex()) {
-    QStyle::State state = 0;
-    if(backArrowRect().contains(view()->viewport()->mapFromGlobal(QCursor::pos()))) {
-      state |= QStyle::State_MouseOver;
-    }
-    drawBackarrow(&painter, state);
-  }
-
-  for (int i = 0; i < rows; ++i) {
-    QModelIndex index = view()->model()->index(i, 0, root);
-    
-    if (view()->isItemVisible(index)) {
-      QStyleOptionViewItemV4 option = viewOptions(index);
-      view()->itemDelegate(index)->paint(&painter,option,index); 
-    }
-  }
+  paintItems(&painter, view()->previousRootIndex(), view()->viewport()->rect());
   painter.end();
   
   //newroot
   m_newRoot.fill(Qt::transparent);
   painter.begin(&m_newRoot);
   painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
-  
-  root = view()->rootIndex();
-  rows = view()->model()->rowCount(root);
-  if(root != QModelIndex()) {
-    QStyle::State state = 0;
-    if(backArrowRect().contains(view()->viewport()->mapFromGlobal(QCursor::pos()))) {
-      state |= QStyle::State_MouseOver;
-    }
-    drawBackarrow(&painter, state);
-  }
 
-  for (int i = 0; i < rows; ++i) {
-    QModelIndex index = view()->model()->index(i, 0, root);
-    
-    if (view()->isItemVisible(index)) {
-      QStyleOptionViewItemV4 option = viewOptions(index);
-      view()->itemDelegate(index)->paint(&painter,option,index); 
-    }
-  }
+  paintItems(&painter, view()->rootIndex(), view()->viewport()->rect());
   painter.end();
   Animator::animate();
   
@@ -116,58 +82,9 @@ void FlipAnimator::paint(QPainter *painter, QPaintEvent *event)
       painter->drawPixmap(target2, m_newRoot, source2);
     }
   } else {
-    QModelIndex root = view()->rootIndex();
-    const int rows = view()->model()->rowCount(root);
-    if(root != QModelIndex()) {
-      QStyle::State state = 0;
-      if(backArrowRect().contains(view()->viewport()->mapFromGlobal(QCursor::pos()))) {
-	state |= QStyle::State_MouseOver;
-      }
-      drawBackarrow(painter, state);
-    }
-
-    for (int i = 0; i < rows; ++i) {
-      QModelIndex index = view()->model()->index(i, 0, root);
-    
-      if (!event->rect().intersects(view()->visualRect(index))) {
-	continue;
-      }
-      QStyleOptionViewItemV4 option = viewOptions(index);
-      view()->itemDelegate(index)->paint(painter,option,index); 
-    }
+    paintItems(painter, view()->rootIndex(), event->rect());
   } 
   
   
-  painter->restore();
-  
-//   painter->setOpacity(painter->opacity() * animationTimeLine()->currentValue());
-//   QModelIndex root = view()->rootIndex();
-//   if(animationTimeLine()->state() == QTimeLine::Running && animationTimeLine()->direction() == QTimeLine::Backward) {
-//     root = view()->previousRootIndex();
-//   }
-//   
-//   if(root != QModelIndex()){
-//     QStyle::State state = 0;
-//     if(backArrowRect().contains(view()->viewport()->mapFromGlobal(QCursor::pos()))) {
-//       state |= QStyle::State_MouseOver;
-//     }
-//     drawBackarrow(painter, state);
-//   }
-//     
-//   const int rows = view()->model()->rowCount(root);
-// 
-//   for (int i = 0; i < rows; ++i) {
-//     QModelIndex index = view()->model()->index(i, 0, root);
-//     
-//     // only draw items intersecting the region of the widget
-//     // being updated
-//     if (!event->rect().intersects(view()->visualRect(index))) {
-//        continue;
-//     }
-// 
-//     QStyleOptionViewItemV4 option = viewOptions(index);
-//     view()->itemDelegate(index)->paint(painter,option,index);
-//   }
-//   painter->restore();
-  
+  painter->restore();  
 }

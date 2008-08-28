@@ -50,6 +50,7 @@ class Animator : public QObject
   protected:
     virtual void drawBackarrow(QPainter *painter, QStyle::State state);
     virtual QStyleOptionViewItem viewOptions(const QModelIndex &index) const;
+    virtual void paintItems(QPainter *painter, const QModelIndex &root, QRect rect);
     //virtual void paintItems(QPainter *painter)
     QTimeLine *animationTimeLine();
     ItemViewBase *view() const;

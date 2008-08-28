@@ -46,27 +46,7 @@ void FadeAnimator::paint(QPainter *painter, QPaintEvent *event)
     root = view()->previousRootIndex();
   }
   
-  if(root != QModelIndex()){
-    QStyle::State state = 0;
-    if(backArrowRect().contains(view()->viewport()->mapFromGlobal(QCursor::pos()))) {
-      state |= QStyle::State_MouseOver;
-    }
-    drawBackarrow(painter, state);
-  }
-    
-  const int rows = view()->model()->rowCount(root);
-
-  for (int i = 0; i < rows; ++i) {
-    QModelIndex index = view()->model()->index(i, 0, root);
-    // only draw items intersecting the region of the widget
-    // being updated
-    if (!event->rect().intersects(view()->visualRect(index))) {
-       continue;
-    }
-
-    QStyleOptionViewItemV4 option = viewOptions(index);
-    view()->itemDelegate(index)->paint(painter,option,index);
-  }
+  paintItems(painter, root, event->rect());
   painter->restore();
   
 }
