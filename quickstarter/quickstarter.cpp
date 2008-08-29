@@ -122,6 +122,7 @@ void QuickStarter::createConfigurationInterface(KConfigDialog *parent)
   ui.setupUi(widget);
   
   //Restore Settings
+  ui.showAll->setChecked(m_settings->category().isEmpty());
   ui.categoryLabel->setText(m_settings->category());
   ui.iconbutton->setIcon(m_settings->iconName());
   ui.iconbutton->setIconType(KIconLoader::NoGroup, KIconLoader::Application);
@@ -131,21 +132,17 @@ void QuickStarter::createConfigurationInterface(KConfigDialog *parent)
   } else {
     ui.viewModeCombo->setCurrentIndex(1);
   }
+  ui.tooltipBox->setChecked(m_settings->showToolTips());
 
   ui.viewModeCombo->setItemIcon(0, KIcon("view-list-details"));
   ui.viewModeCombo->setItemIcon(1, KIcon("view-list-icons"));
   
-//   if(!m_settings->showCustomLabel()) {
-//     ui.customLabelBox->setChecked(false);
-//   } else {
-//     ui.customLabelBox->setChecked(true);
-//     ui.customLabel->setEnabled(true);
-//     ui.customLabelEdit->setEnabled(true);
-//     ui.customLabelEdit->setText(m_settings->customLabel());
-//   }
-  
   parent->addPage(widget, parent->windowTitle(), icon());
   parent->setButtons(KDialog::Ok | KDialog::Cancel | KDialog::Apply);
+
+  connect(ui.showAll, SIGNAL(toggled(bool)), ui.categorySelector, SLOT(setDisabled(bool)));
+  connect(ui.showAll, SIGNAL(toggled(bool)), ui.categoryLabel, SLOT(setDisabled(bool)));
+  connect(ui.showAll, SIGNAL(toggled(bool)), ui.selectLabel, SLOT(setDisabled(bool)));
   connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
   connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
   connect(ui.categorySelector, SIGNAL(clicked()), this, SLOT(showcategories(/*QWidget *parent*/)));
@@ -154,12 +151,13 @@ void QuickStarter::createConfigurationInterface(KConfigDialog *parent)
 //SLOTS:
 void QuickStarter::configAccepted()
 {
-  m_settings->setCategory(ui.categoryLabel->text());
+  if(ui.showAll->isChecked())
+    m_settings->setCategory(QString()); //To show all applications
+  else
+    m_settings->setCategory(ui.categoryLabel->text());
   m_settings->setIconName(ui.iconbutton->icon());
   m_settings->setIconSize(ui.iconSizeCombo->currentText().toInt());
-  //m_settings->setShowCustomLabel(ui.customLabelBox->isChecked());
-  //m_settings->setCustomLabel(ui.customLabelEdit->text());
-  //m_settings->setShowToolTips(ui.tooltipBox->isChecked());
+  m_settings->setShowToolTips(ui.tooltipBox->isChecked());
   
   if(ui.viewModeCombo->currentIndex() == 0) {
     m_settings->setViewMode(ItemView::ListMode);

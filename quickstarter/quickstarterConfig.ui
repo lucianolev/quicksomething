@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>458</width>
-    <height>401</height>
+    <width>300</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -23,15 +23,22 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout" >
       <item>
-       <layout class="QFormLayout" name="formLayout_2" >
-        <property name="labelAlignment" >
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <widget class="QCheckBox" name="showAll" >
+        <property name="text" >
+         <string>Show All Applications</string>
         </property>
-        <property name="formAlignment" >
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-        </property>
-        <item row="0" column="0" >
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout" >
+        <item>
          <widget class="QLabel" name="selectLabel" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text" >
            <string>Category:</string>
           </property>
@@ -40,32 +47,22 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="1" >
-         <layout class="QHBoxLayout" name="horizontalLayout" >
-          <item>
-           <widget class="QLabel" name="categoryLabel" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
-              <horstretch>0</horstretch>
-              <verstretch>1</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="frameShape" >
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow" >
-             <enum>QFrame::Sunken</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="categorySelector" >
-            <property name="text" >
-             <string>...</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <item>
+         <widget class="QLabel" name="categoryLabel" >
+          <property name="frameShape" >
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow" >
+           <enum>QFrame::Sunken</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="categorySelector" >
+          <property name="text" >
+           <string>...</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -207,59 +204,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QCheckBox" name="customLabelBox" >
-        <property name="text" >
-         <string>Use a custom Label</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3" >
-        <item>
-         <spacer name="horizontalSpacer_5" >
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0" >
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="customLabel" >
-          <property name="enabled" >
-           <bool>false</bool>
-          </property>
-          <property name="text" >
-           <string>Label:</string>
-          </property>
-          <property name="alignment" >
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-          <property name="buddy" >
-           <cstring>customLabelEdit</cstring>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="customLabelEdit" >
-          <property name="enabled" >
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-            <horstretch>1</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
      </layout>
     </widget>
    </item>
@@ -271,7 +215,7 @@
      <property name="sizeHint" stdset="0" >
       <size>
        <width>20</width>
-       <height>78</height>
+       <height>107</height>
       </size>
      </property>
     </spacer>
