@@ -125,6 +125,8 @@ QVariant ApplicationModel::data(const QModelIndex &index, int role) const
       return item->name;
     case Qt::DecorationRole:
       return item->icon;
+    case Qt::ToolTipRole:
+      return item->comment;
     default:
       return QVariant();
   }

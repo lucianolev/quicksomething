@@ -90,47 +90,19 @@ ItemView::ViewMode Settings::viewMode()
   return m_viewMode;
 }
     
-// void Settings::setCustomLabel(const QString &label)
-// {
-//   if(label != m_customLabel) {
-//     m_customLabel = label;
-//     m_needsSaving = true;
-//     emit settingsChanged(Settings::CustomLabel);
-//   }
-// }
- 
-//  QString Settings::customLabel() const
-// {
-//   return m_customLabel;
-// }
-//     
-// void Settings::setShowCustomLabel(bool show)
-// {
-//   if(show != m_showCustomLabel) {
-//     m_showCustomLabel = show;
-//     m_needsSaving = true;
-//     emit settingsChanged(Settings::CustomLabel);
-//   }
-// }
+void Settings::setShowToolTips(bool show)
+{
+  if(show != m_showToolTips) {
+    m_showToolTips = show;
+    m_needsSaving = true;
+    emit settingsChanged(Settings::ToolTips);
+  }
+}
 
-// bool Settings::showCustomLabel()
-// {
-//   return m_showCustomLabel;
-// }
-
-// void Settings::setShowToolTips(bool show)
-// {
-//   if(show != m_showToolTips) {
-//     m_showToolTips = show;
-//     m_needsSaving = true;
-//     emit settingsChanged(Settings::ToolTips);
-//   }
-// }
-
-// bool Settings::showToolTips()
-// {
-//   return m_showToolTips;
-// }
+bool Settings::showToolTips()
+{
+  return m_showToolTips;
+}
 
 bool Settings::needsSaving()
 {
@@ -143,9 +115,7 @@ void Settings::readSettings(KConfigGroup *cg)
   m_iconName = cg->readEntry("icon", "kde");
   m_iconSize = cg->readEntry("iconSize", 32);
   m_viewMode = (ItemView::ViewMode)cg->readEntry("ViewMode", 1);
-  //m_showCustomLabel = cg->readEntry("showCustomLabel", false);
-  //m_customLabel = cg->readEntry("customLabel", "");
-  //m_showToolTips = cg->readEntry("ToolTips", false);
+  m_showToolTips = cg->readEntry("ToolTips", false);
   //emit settingsChanged(Settings::All); //FIXME: Why was this here?
 }
 
@@ -155,9 +125,7 @@ void Settings::saveSettings(KConfigGroup *cg)
   cg->writeEntry("icon", m_iconName);
   cg->writeEntry("iconSize", m_iconSize);
   cg->writeEntry("ViewMode", (int)m_viewMode);
-  //cg->writeEntry("customLabel", m_customLabel);
-  //cg->writeEntry("showCustomLabel", m_showCustomLabel);
-  //cg->writeEntry("ToolTips", m_showToolTips);
+  cg->writeEntry("ToolTips", m_showToolTips);
   m_needsSaving = false;
 }
   

@@ -34,11 +34,10 @@ class Settings : public QObject
     enum SettingsType {
       IconName = 0,
       IconSize = 1,
-      //CustomLabel = 2,
-      //ToolTips = 3,
       ViewMode = 2,
       Category = 3,
-      All = 4
+      ToolTips = 4,
+      All = 5
     };
     
     Settings(QObject *parent = 0);
@@ -56,14 +55,8 @@ class Settings : public QObject
     void setViewMode(ItemView::ViewMode mode);
     ItemView::ViewMode viewMode();
 
-//     void setCustomLabel(const QString &label);
-//     QString customLabel() const;
-//     
-//     void setShowCustomLabel(bool show);
-//     bool showCustomLabel();
-//     
-//     void setShowToolTips(bool show);
-//     bool showToolTips();
+    void setShowToolTips(bool show);
+    bool showToolTips();
     
     bool needsSaving();
     
@@ -79,9 +72,7 @@ class Settings : public QObject
     QString m_iconName;
     int m_iconSize;
     ItemView::ViewMode m_viewMode;
-    //QString m_customLabel;
-    //bool m_showCustomLabel;
-    //bool m_showToolTips;
+    bool m_showToolTips;
     bool m_needsSaving;
 };
 
