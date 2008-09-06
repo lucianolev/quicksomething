@@ -123,6 +123,9 @@ void QuickStarter::createConfigurationInterface(KConfigDialog *parent)
   
   //Restore Settings
   ui.showAll->setChecked(m_settings->category().isEmpty());
+  ui.categorySelector->setDisabled(m_settings->category().isEmpty());
+  ui.selectLabel->setDisabled(m_settings->category().isEmpty());
+  ui.categoryLabel->setDisabled(m_settings->category().isEmpty());
   ui.categoryLabel->setText(m_settings->category());
   ui.iconbutton->setIcon(m_settings->iconName());
   ui.iconbutton->setIconType(KIconLoader::NoGroup, KIconLoader::Application);

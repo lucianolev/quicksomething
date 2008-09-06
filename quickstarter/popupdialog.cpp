@@ -24,6 +24,7 @@
 
 //KDE includes
 #include <KFileItemDelegate>
+#include <KToolInvocation>
 
 //local includes
 #include "popupdialog.h"
@@ -58,7 +59,8 @@ PopupDialog::PopupDialog(Settings *settings, QWidget * parent, Qt::WindowFlags f
   
   connect(m_settings, SIGNAL(settingsChanged(Settings::SettingsType)),
 	  this, SLOT(applySettings(Settings::SettingsType)));
-  
+  connect(m_view, SIGNAL(signal_open(const QModelIndex &)),
+	  this, SLOT(openApp(const QModelIndex &)));
 }
 
 PopupDialog::~PopupDialog()
@@ -78,6 +80,9 @@ void PopupDialog::applySettings(Settings::SettingsType type)
     case Settings::Category:
       m_model->setRoot(m_settings->category());
       break;
+    case Settings::ToolTips:
+      m_view->setShowToolTips(m_settings->showToolTips());
+      break;
     default:
       m_view->setViewMode(m_settings->viewMode());
       m_view->setIconSize(QSize(m_settings->iconSize(), m_settings->iconSize()));
@@ -94,6 +99,15 @@ void PopupDialog::hideEvent ( QHideEvent * event )
   //m_backButton->hide();
   QWidget::hideEvent( event );
   //emit signal_hide();
+}
+
+void PopupDialog::openApp(const QModelIndex &index)
+{
+  if (!m_model->hasChildren(index)) {
+    QString appname = index.data(Qt::DisplayRole).toString(); 
+    KToolInvocation::startServiceByDesktopName(appname);
+    hide();
+  }
 }
 
 // void PopupDialog::setIconSize(int i)

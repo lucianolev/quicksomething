@@ -20,7 +20,6 @@
 #ifndef PopupDialog_HEADER
 #define PopupDialog_HEADER
 
-
 //locale includes
 #include "itemview.h"
 #include "dialog/resizedialog.h"
@@ -35,14 +34,13 @@ class PopupDialog : public ResizeDialog
     PopupDialog(Settings *settings, QWidget * parent = 0, Qt::WindowFlags f =  Qt::Window);
     ~PopupDialog();
 
-  
   public slots:
     void applySettings(Settings::SettingsType);
+    void openApp(const QModelIndex &index);
 
   protected:
     //reimplemented from QWidget
     virtual void hideEvent ( QHideEvent * event );
-
 
   private:
     ItemView *m_view;

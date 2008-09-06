@@ -24,7 +24,7 @@ Settings::Settings(QObject *parent)
   :QObject(parent)
   ,m_category("")
   ,m_iconName("kde")
-  ,m_iconSize(16)
+  ,m_iconSize(32)
   ,m_viewMode(ItemView::ListMode)
   ,m_needsSaving(false)
 {
@@ -114,9 +114,8 @@ void Settings::readSettings(KConfigGroup *cg)
   m_category = cg->readEntry("category", "");
   m_iconName = cg->readEntry("icon", "kde");
   m_iconSize = cg->readEntry("iconSize", 32);
-  m_viewMode = (ItemView::ViewMode)cg->readEntry("ViewMode", 1);
+  m_viewMode = (ItemView::ViewMode)cg->readEntry("ViewMode", 0);
   m_showToolTips = cg->readEntry("ToolTips", false);
-  //emit settingsChanged(Settings::All); //FIXME: Why was this here?
 }
 
 void Settings::saveSettings(KConfigGroup *cg)
