@@ -34,10 +34,10 @@ class ItemView : public ItemViewBase
     
   protected:
     //QAbstractItemView
+    bool viewportEvent(QEvent *event);
     //void dragEnterEvent(QDragEnterEvent *event);
     //void dropEvent(QDropEvent *event);
     //void dragMoveEvent(QDragMoveEvent *event);
-    //bool viewportEvent(QEvent *event);
     
     //QAbstractScrollArea
     //void contextMenuEvent( QContextMenuEvent *event);

@@ -194,7 +194,7 @@ void ApplicationModel::getChildren(Item *parent)
        name = s->name();
        icon = KIcon(s->icon());
        relPath = parent->relPath;
-       comment  = s->comment();
+       comment  = s->genericName();
        desktopFile = s->entryPath();
     }
     else if (p->isType(KST_KServiceGroup))
