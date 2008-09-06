@@ -202,7 +202,7 @@ void ApplicationModel::getChildren(Item *parent)
        KServiceGroup::Ptr g = KServiceGroup::Ptr::staticCast(p);
        if(g->noDisplay() || g->childCount() == 0) continue;
        name = g->caption();
-       icon = KIcon(g->icon(), 0, QStringList() << "folder");
+       icon = KIcon(g->icon());
        relPath = g->relPath();
        comment = g->comment();
        isCategory = true;
