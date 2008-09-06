@@ -19,13 +19,16 @@
 
 #include "itemview.h"
 
+#include <QDropEvent>
+#include <QToolTip>
+
 #include <KDebug>
 
 ItemView::ItemView(QWidget *parent)
   :ItemViewBase(parent)
+  ,m_showToolTips(false)
 {
   setDragDropMode(QAbstractItemView::DragOnly);
-  
 }
 
 ItemView::~ItemView()
@@ -121,23 +124,22 @@ bool ItemView::showToolTips()
 //   KonqOperations::doDrop(item, item.url(), &ev, this);
 // }
 // 
-// bool ItemView::viewportEvent(QEvent *event)
-// {
-//   if(event->type() == QEvent::ToolTip && d->showToolTips) {
-//     QHelpEvent *helpEvent = dynamic_cast<QHelpEvent*>(event);
-//     QModelIndex index = indexAt(helpEvent->pos());
-//     if(!index.isValid() || index == rootIndex()) {
-//       return false;
-//     }
-//     KDirSortFilterProxyModel *proxyModel = dynamic_cast<KDirSortFilterProxyModel*>(model());
-//     DirModel *model = dynamic_cast<DirModel*>(proxyModel);
-//     KFileItem item = model->itemForIndex(proxyModel->mapToSource(index));
-//     QToolTip::showText(mapToGlobal(helpEvent->pos()), item.getToolTipText(), this, visualRect(index));
-//     return true;
-//   }
-//   return QAbstractItemView::viewportEvent(event);
-// 
-// }
+
+bool ItemView::viewportEvent(QEvent *event)
+{
+  if(event->type() == QEvent::ToolTip && showToolTips()) {
+    QHelpEvent *helpEvent = dynamic_cast<QHelpEvent*>(event);
+    QModelIndex index = indexAt(helpEvent->pos());
+    if(!index.isValid() || index == rootIndex()) {
+      return false;
+    } else {
+      QToolTip::showText(mapToGlobal(helpEvent->pos()), index.data(Qt::ToolTipRole).toString(), this, visualRect(index));
+      return true;
+    }
+  }
+  return QAbstractItemView::viewportEvent(event);
+}
+
 // 
 // void ItemView::contextMenuEvent( QContextMenuEvent *event)
 // { 

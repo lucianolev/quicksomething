@@ -45,7 +45,6 @@ PopupDialog::PopupDialog(Settings *settings, QWidget * parent, Qt::WindowFlags f
   
   setLayout(l_layoutVertical);
 
-
   //create the FlipScrollView
   m_view = new ItemView(this);
   KFileItemDelegate *delegate = new KFileItemDelegate(this);
@@ -55,6 +54,7 @@ PopupDialog::PopupDialog(Settings *settings, QWidget * parent, Qt::WindowFlags f
   m_model->setRoot(m_settings->category());
   m_view->setModel(m_model);
   m_view->setAnimator(new FlipAnimator(m_view, this));
+  m_view->setShowToolTips(m_settings->showToolTips());
   l_layoutVertical->addWidget(m_view);
   
   connect(m_settings, SIGNAL(settingsChanged(Settings::SettingsType)),

@@ -26,6 +26,7 @@ Settings::Settings(QObject *parent)
   ,m_iconName("kde")
   ,m_iconSize(32)
   ,m_viewMode(ItemView::ListMode)
+  ,m_showToolTips(false)
   ,m_needsSaving(false)
 {
 }
@@ -115,7 +116,7 @@ void Settings::readSettings(KConfigGroup *cg)
   m_iconName = cg->readEntry("icon", "kde");
   m_iconSize = cg->readEntry("iconSize", 32);
   m_viewMode = (ItemView::ViewMode)cg->readEntry("ViewMode", 0);
-  m_showToolTips = cg->readEntry("ToolTips", false);
+  m_showToolTips = cg->readEntry("tooltips", false);
 }
 
 void Settings::saveSettings(KConfigGroup *cg)
@@ -124,7 +125,7 @@ void Settings::saveSettings(KConfigGroup *cg)
   cg->writeEntry("icon", m_iconName);
   cg->writeEntry("iconSize", m_iconSize);
   cg->writeEntry("ViewMode", (int)m_viewMode);
-  cg->writeEntry("ToolTips", m_showToolTips);
+  cg->writeEntry("tooltips", m_showToolTips);
   m_needsSaving = false;
 }
   
