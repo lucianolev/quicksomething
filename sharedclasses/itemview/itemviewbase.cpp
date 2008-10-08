@@ -450,17 +450,19 @@ void ItemViewBase::mouseMoveEvent(QMouseEvent *event)
 
 void ItemViewBase::mousePressEvent(QMouseEvent *event)
 {
-  if(d->animator->backArrowRect().contains(event->pos()) && rootIndex() != QModelIndex()) {
-    if (event->button() == Qt::LeftButton) {
-      open(rootIndex().parent());
-    }
-  }
   QAbstractItemView::mousePressEvent(event);
 }
 
 void ItemViewBase::mouseReleaseEvent(QMouseEvent *event)
 {  
-  QAbstractItemView::mouseReleaseEvent(event);
+  if(d->animator->backArrowRect().contains(event->pos()) && rootIndex() != QModelIndex()) {
+    if (event->button() == Qt::LeftButton) {
+      open(rootIndex().parent());
+    }
+    
+  } else {
+    QAbstractItemView::mouseReleaseEvent(event);
+  }
 }
 
 void ItemViewBase::wheelEvent(QWheelEvent *event)
